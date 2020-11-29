@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { ChatGateway } from './chat/gateway/chat.gateway'
+import { ChatGateway } from './Chat/gateway/chat.gateway'
 
 @Module({
   imports: [],
