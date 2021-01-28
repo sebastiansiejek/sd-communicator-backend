@@ -29,16 +29,19 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('msgToServer')
   handleMessage(
     client: Socket,
-    message: { body: string; leaveRoom?: boolean; senderId: string }
+    message: { body: string; senderId: string }
   ): void {
-    const { roomId } = client.handshake.query
-
-    if (message.leaveRoom) {
-      client.leave(roomId)
-      return
-    }
+    const { roomId } = client.handshake.query as { roomId: string }
 
     client.join(roomId)
     this.wss.in(roomId).emit('msgToClient', message)
+  }
+
+  @SubscribeMessage('leaveRoom')
+  leaveRoom(client: Socket): void {
+    const { roomId } = client.handshake.query as { roomId: string }
+
+    client.leave(roomId)
+    client.emit('leaveRoom', roomId)
   }
 }
