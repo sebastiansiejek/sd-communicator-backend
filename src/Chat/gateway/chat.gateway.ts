@@ -29,7 +29,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('msgToServer')
   handleMessage(
     client: Socket,
-    message: { body: string; senderId: string }
+    message: { body: string; nickname: string; senderId: string }
   ): void {
     const { roomId } = client.handshake.query as { roomId: string }
 
