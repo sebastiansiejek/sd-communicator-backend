@@ -76,5 +76,8 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "git-format-staged -f 'prettier --ignore-unknown --stdin --stdin-filepath \"{}\"' ."
     }
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
