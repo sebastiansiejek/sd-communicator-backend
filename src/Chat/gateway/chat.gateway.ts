@@ -55,10 +55,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('leaveRoom')
-  leaveRoom(client: Socket): void {
+  leaveRoom(
+    client: Socket,
+    message: { nickname: string; senderId: string }
+  ): void {
     const { roomId } = client.handshake.query as { roomId: string }
+    const { nickname } = message
 
     client.leave(roomId)
-    client.emit('leaveRoom', roomId)
+
+    this.wss.in(roomId).emit('leaveRoom', {
+      message: `${nickname} leaved room`
+    })
   }
 }
