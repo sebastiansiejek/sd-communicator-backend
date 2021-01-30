@@ -1,6 +1,10 @@
 # sd-communicator
 Chat
 
+## Getting started
+* Set WEBSOCKET_CLIENT_ORIGIN variable in .env
+  example: `WEBSOCKET_CLIENT_ORIGIN='http://localhost:3001'`
+
 ## Installation
 
 ```bash

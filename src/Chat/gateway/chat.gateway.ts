@@ -4,7 +4,8 @@ import {
   OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer
+  WebSocketServer,
+  WsResponse
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
 
@@ -30,11 +31,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleMessage(
     client: Socket,
     message: { body: string; nickname: string; senderId: string }
-  ): void {
+  ): WsResponse<unknown> {
     const { roomId } = client.handshake.query as { roomId: string }
 
     client.join(roomId)
     this.wss.in(roomId).emit('msgToClient', message)
+
+    return { event: 'msgToServer', data: message }
   }
 
   @SubscribeMessage('leaveRoom')
