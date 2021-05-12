@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage{blindtext}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{datetime}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+
+\title{\textbf{SD Communicator} \\ POLITECHNIKA POZNAŃSKA}
+\author{Sebastian Siejek, Dawid Smalc}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents{}
+
+\section{Wstęp}
+
+Naszym celem jest rozszerzenie komunikatora tekstowego stworzonego na potrzeby projektu dla dr. Tomasza Bilskiego. Rozbudowa aplikacji realizowana jest w ramach projektu z przedmiotu Telefonia IP prowadzonego przez mgr. inż. Michała Apolniarskiego. Rozszerzenie polega na dodaniu użytkownikom komunikacji głosowej oraz video.
+
+\section{Sformułowanie zalożeń}
+
+Głównym zadaniem systemu ma być realizacja komunikacji między osobami identyfikującymi się nadanym pseudonimem. W systemie dostępne będą pokoje publiczne. Każdy z użytkowników systemu może stworzyć swój pokój do rozmowy lub dołączyć do istniejącego pokoju w celu wymiany wiadomości. Grupą docelową systemu jest młodzież. Interfejs jest w języku angielskim. System może działać w sieci WAN.
+
+\section{Wymagania funkcjonalne}
+
+System ma za zadanie anonimowo łączyć ze sobą ludzi mających chęć porozmawiania. System zapewnia wysyłanie i odbieranie wiadomości oraz komunikacje z wykorzystaniem mikrofonu i kamerki internetowej przez użytkowników systemu bez zakładania konta. Każdy użytkownik może stworzyć pokój publiczny. Dla każdego utworzonego pokoju jest generowany link, który można przesłać dowolnej osobie. Użytkownicy systemu zachowują anonimowość, nie podając swoich danych osobowych.
+
+\section{Wymagania niefunkcjonalne}
+
+Minimalistyczny interfejs zapewnia szybkość działania oraz łatwy dostęp do konkretnych funkcji. System uruchamiany jest w przeglądarce internetowej, dzięki czemu możliwe jest uruchomienie go na każdym urządzeniu wyposażonym w przeglądarkę oraz dostęp do internetu. Wiadomości oraz rejestracja głosu nie jest przechowywana na serwerze. Aplikacja umożliwia generowanie unikalnego identyfikatora pokoju lub tworzenie własnego identyfikatora.
+
+\section{Opis koncepcji rozwiązania zadania}
+
+Projekt jest zrealizowany w środowisku Node.js. W skład aplikacji wchodzi część serwerowa oraz kliencka. Serwer jest stworzony przy pomocy frameworka Nest.js, natomiast część kliencka z wykorzystaniem React.js. Komunikacja między klientem a serwerem jest realizowana z wykorzystaniem technologii WebSocket. Do komunikacji w czasie rzeczywistym skorzystamy z wbudowanego w przeglądarki internetowe stanrdu WebRTC.
+
+\section{Implementacja}
+
+\subsection{Serwer}
+
+\subsection{Klient}
+
+\section{Literatura}
+
+\url{https://www.wikibooks.org}\\
+\url{https://developer.mozilla.org/pl/docs/WebSockets}\\
+\url{https://www.w3.org/TR/websockets/}\\
+\url{https://tools.ietf.org/html/rfc6455}\\
+\url{https://caniuse.com/websockets}\\
+\url{https://sekurak.pl/bezpieczenstwo-protokolu-websocket-w-praktyce/}\\
+\url{https://christian-schneider.net/CrossSiteWebSocketHijacking.html}\\
+\url{https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API}\\
+\url{https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia}
+
+\end{document}
