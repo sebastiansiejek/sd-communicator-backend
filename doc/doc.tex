@@ -68,6 +68,33 @@ Do generowania unikalnego identyfikatora pokoju.
 \subsection{Kodeki}
 Technologia WebRTC wspiera kodeki VP8 oraz AVC / H.264.
 
+\section{Opis najważniejszych protokołów}
+
+\subsection{WebSocket}
+Zapewnia dwukierunkowy kanał komunikacyji za pośrednictwem jednego gniazda TCP. Stosowania do komunikacji klienta z serwerem. Umożliwia transmisje danych w czasie rzeczywistym.
+
+\subsubsection{Nagłówek}
+
+Odpowiedź
+\begin{itemize}
+  \item Connection - Określa sposób polączenia
+  \item Sec-WebSocket-Accept - Zaszyfrowana wiadomość podczas uzgadniania połączenia klienta z serwerem
+  \item Sec-WebSocket-Extensions- określa rozszerzenia protokołu
+  \item Upgrade - Określa zaktualizowanie protokołu np. z HTTP do WebSocket
+\end{itemize}
+
+Żądanie
+\begin{itemize}
+  \item Connection - Określa sposób polączenia
+  \item Sec-WebSocket-Extension - Określa rozszerzania protokołu WebSocket
+  \item Sec-WebSocket-Key - Dostarcza informacje serwerowi, że klient jest uprawniony do żądania uaktualnienia do WebSocket
+  \item Sec-WebSocket-Version - Określa wersję protokołu WebSocket
+  \item Upgrade - Określa zaktualizowanie protokołu np. z HTTP do WebSocket
+\end{itemize}
+
+\subsection{HTTP}
+(ang. \emph{Hypertext Transfer Protocol}) - Jest protokołem przesyłania dokumentów hipertekstowych. Okręśla formę żądania klienta oraz formę odpowiedzi serwera. Jest bezstanowy co oznacza, że każde zapytanie może być interpretowanie niezależnie od pozostałych.
+
 \section{Literatura}
 
 \url{https://www.wikibooks.org}\\
@@ -78,6 +105,8 @@ Technologia WebRTC wspiera kodeki VP8 oraz AVC / H.264.
 \url{https://sekurak.pl/bezpieczenstwo-protokolu-websocket-w-praktyce/}\\
 \url{https://christian-schneider.net/CrossSiteWebSocketHijacking.html}\\
 \url{https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API}\\
-\url{https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia}
+\url{https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia}\\
+\url{https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Protocols#turn}\\
+\url{https://pl.wikipedia.org/wiki/Hypertext_Transfer_Protocol}
 
 \end{document}
