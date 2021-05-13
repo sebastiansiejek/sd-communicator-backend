@@ -90,25 +90,22 @@ captionpos=b
 \tableofcontents{}
 
 \section{Wstęp}
-
-Naszym celem jest rozszerzenie komunikatora tekstowego stworzonego na potrzeby projektu dla dr. Tomasza Bilskiego. Rozbudowa aplikacji realizowana jest w ramach projektu z przedmiotu Telefonia IP prowadzonego przez mgr. inż. Michała Apolniarskiego. Rozszerzenie polega na dodaniu użytkownikom komunikacji głosowej oraz video.
+Naszym celem jest rozszerzenie komunikatora tekstowego stworzonego na potrzeby projektu dla dr. Tomasza Bilskiego. Rozbudowa aplikacji realizowana jest w ramach projektu z przedmiotu Telefonia IP prowadzonego przez mgr. inż. Michała Apolinarskiego. Rozszerzenie polega na dodaniu użytkownikom komunikacji głosowej oraz video.
 
 \section{Charakterystyka ogólna}
-
 Głównym zadaniem systemu ma być realizacja komunikacji między osobami identyfikującymi się nadanym pseudonimem. W systemie dostępne będą pokoje publiczne. Każdy z użytkowników systemu może stworzyć swój pokój do rozmowy lub dołączyć do istniejącego pokoju w celu wymiany wiadomości. Grupą docelową systemu jest młodzież. Interfejs jest w języku angielskim. System może działać w sieci WAN.
 
+\section{Architektura systemu}
+System jest podzielony na dwie usługi klienta oraz serwer. Obie z nich są napisane w TypeScript(JavaScript) i działają w środowisku node.js. Serwer jest stworzony w frameworku nest.js, a część kliencka w React.js.
+
 \section{Wymagania}
-
 \subsection{Wymagania funkcjonalne}
-
 System ma za zadanie anonimowo łączyć ze sobą ludzi mających chęć porozmawiania. System zapewnia wysyłanie i odbieranie wiadomości oraz komunikacje z wykorzystaniem mikrofonu i kamerki internetowej przez użytkowników systemu bez zakładania konta. Każdy użytkownik może stworzyć pokój publiczny. Dla każdego utworzonego pokoju jest generowany link, który można przesłać dowolnej osobie. Użytkownicy systemu zachowują anonimowość, nie podając swoich danych osobowych.
 
 \subsection{Wymagania niefunkcjonalne}
-
 Minimalistyczny interfejs zapewnia szybkość działania oraz łatwy dostęp do konkretnych funkcji. System uruchamiany jest w przeglądarce internetowej, dzięki czemu możliwe jest uruchomienie go na każdym urządzeniu wyposażonym w przeglądarkę oraz dostęp do internetu. Wiadomości oraz rejestracja głosu nie jest przechowywana na serwerze. Aplikacja umożliwia generowanie unikalnego identyfikatora pokoju lub tworzenie własnego identyfikatora.
 
 \section{Narzędzia, środowisko, biblioteki, kodeki}
-
 \subsection{Narzędzia}
 
 \subsubsection{Github}
@@ -143,13 +140,13 @@ Technologia WebRTC wspiera kodeki VP8 oraz AVC / H.264.
 \section{Opis najważniejszych protokołów}
 
 \subsection{WebSocket}
-Zapewnia dwukierunkowy kanał komunikacyji za pośrednictwem jednego gniazda TCP. Stosowania do komunikacji klienta z serwerem. Umożliwia transmisje danych w czasie rzeczywistym.
+Zapewnia dwukierunkowy kanał komunikacyjny za pośrednictwem jednego gniazda TCP. Stosowania do komunikacji klienta z serwerem. Umożliwia transmisje danych w czasie rzeczywistym.
 
 \subsubsection{Nagłówek}
 
 Odpowiedź
 \begin{itemize}
-  \item Connection - Określa sposób polączenia
+  \item Connection - Określa sposób połączenia
   \item Sec-WebSocket-Accept - Zaszyfrowana wiadomość podczas uzgadniania połączenia klienta z serwerem
   \item Sec-WebSocket-Extensions- określa rozszerzenia protokołu
   \item Upgrade - Określa zaktualizowanie protokołu np. z HTTP do WebSocket
@@ -157,7 +154,7 @@ Odpowiedź
 
 Żądanie
 \begin{itemize}
-  \item Connection - Określa sposób polączenia
+  \item Connection - Określa sposób połączenia
   \item Sec-WebSocket-Extension - Określa rozszerzania protokołu WebSocket
   \item Sec-WebSocket-Key - Dostarcza informacje serwerowi, że klient jest uprawniony do żądania uaktualnienia do WebSocket
   \item Sec-WebSocket-Version - Określa wersję protokołu WebSocket
