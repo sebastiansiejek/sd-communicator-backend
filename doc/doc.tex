@@ -21,19 +21,33 @@
 
 Naszym celem jest rozszerzenie komunikatora tekstowego stworzonego na potrzeby projektu dla dr. Tomasza Bilskiego. Rozbudowa aplikacji realizowana jest w ramach projektu z przedmiotu Telefonia IP prowadzonego przez mgr. inż. Michała Apolniarskiego. Rozszerzenie polega na dodaniu użytkownikom komunikacji głosowej oraz video.
 
-\section{Sformułowanie zalożeń}
+\section{Charakterystyka ogólna}
 
 Głównym zadaniem systemu ma być realizacja komunikacji między osobami identyfikującymi się nadanym pseudonimem. W systemie dostępne będą pokoje publiczne. Każdy z użytkowników systemu może stworzyć swój pokój do rozmowy lub dołączyć do istniejącego pokoju w celu wymiany wiadomości. Grupą docelową systemu jest młodzież. Interfejs jest w języku angielskim. System może działać w sieci WAN.
 
-\section{Wymagania funkcjonalne}
+\section{Wymagania}
+
+\subsection{Wymagania funkcjonalne}
 
 System ma za zadanie anonimowo łączyć ze sobą ludzi mających chęć porozmawiania. System zapewnia wysyłanie i odbieranie wiadomości oraz komunikacje z wykorzystaniem mikrofonu i kamerki internetowej przez użytkowników systemu bez zakładania konta. Każdy użytkownik może stworzyć pokój publiczny. Dla każdego utworzonego pokoju jest generowany link, który można przesłać dowolnej osobie. Użytkownicy systemu zachowują anonimowość, nie podając swoich danych osobowych.
 
-\section{Wymagania niefunkcjonalne}
+\subsection{Wymagania niefunkcjonalne}
 
 Minimalistyczny interfejs zapewnia szybkość działania oraz łatwy dostęp do konkretnych funkcji. System uruchamiany jest w przeglądarce internetowej, dzięki czemu możliwe jest uruchomienie go na każdym urządzeniu wyposażonym w przeglądarkę oraz dostęp do internetu. Wiadomości oraz rejestracja głosu nie jest przechowywana na serwerze. Aplikacja umożliwia generowanie unikalnego identyfikatora pokoju lub tworzenie własnego identyfikatora.
 
-\section{Opis koncepcji rozwiązania zadania}
+\section{Narzędzia, środowisko, biblioteki, kodeki}
+
+\subsection{Narzędzia}
+
+\subsubsection{Github}
+Zdalne repozytorium do łączenia zmian oraz rozwiązywania konfliktów w kodzie.
+
+\subsubsection{Visal Studio Code}
+Edytor(IDE) do pisania kodu.
+
+\subsubsection{Notion}
+Do zarządzania zadaniami i pisania notatek.
+
 
 Projekt jest zrealizowany w środowisku Node.js. W skład aplikacji wchodzi część serwerowa oraz kliencka. Serwer jest stworzony przy pomocy frameworka Nest.js, natomiast część kliencka z wykorzystaniem React.js. Komunikacja między klientem a serwerem jest realizowana z wykorzystaniem technologii WebSocket. Do komunikacji w czasie rzeczywistym skorzystamy z wbudowanego w przeglądarki internetowe stanrdu WebRTC.
 
