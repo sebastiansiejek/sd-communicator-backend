@@ -51,6 +51,21 @@ Do zarządzania zadaniami i pisania notatek.
 \subsection{Środowisko}
 Projekt jest zrealizowany w środowisku Node.js. W skład aplikacji wchodzi część serwerowa oraz kliencka. Kod jest rozdzielony na dwa repozytoria. Serwer jest stworzony przy pomocy frameworka Nest.js, natomiast część kliencka z wykorzystaniem React.js. Komunikacja między klientem a serwerem jest realizowana z wykorzystaniem technologii WebSocket. Do komunikacji w czasie korzystamy z wbudowanego w przeglądarki internetowe stanrdu WebRTC. Aplikacja działa w chmurze na platformie \href{https://dashboard.heroku.com/apps}{Heroku}.
 
+\subsection{Biblioteki}
+
+\subsubsection{Socket.IO}
+Do obsługi protokołu websocket na serwerze oraz po stronie klienta.
+
+\subsubsection{simple-peer}
+Do ustanowienia komunikacji P2P między węzłami w czasie rzeczywistym.
+
+\subsubsection{redux}
+Do zarządzania stanem aplikacji i przekazywania danych między komponentami.
+
+\subsubsection{nanoid}
+Do generowania unikalnego identyfikatora pokoju.
+
+
 \section{Literatura}
 
 \url{https://www.wikibooks.org}\\
