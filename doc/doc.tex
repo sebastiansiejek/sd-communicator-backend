@@ -1,0 +1,321 @@
+\documentclass{article}
+\usepackage{blindtext}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{datetime}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{listings} %code highlighter
+\usepackage{color} %use color
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+%Customize a bit the look
+\lstset{ %
+backgroundcolor=\color{white}, % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+basicstyle=\footnotesize, % the size of the fonts that are used for the code
+breakatwhitespace=false, % sets if automatic breaks should only happen at whitespace
+breaklines=true, % sets automatic line breaking
+captionpos=b, % sets the caption-position to bottom
+commentstyle=\color{mygreen}, % comment style
+deletekeywords={...}, % if you want to delete keywords from the given language
+escapeinside={\%*}{*)}, % if you want to add LaTeX within your code
+extendedchars=true, % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+frame=single, % adds a frame around the code
+keepspaces=true, % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+keywordstyle=\color{blue}, % keyword style
+% language=Octave, % the language of the code
+morekeywords={*,...}, % if you want to add more keywords to the set
+numbers=left, % where to put the line-numbers; possible values are (none, left, right)
+numbersep=5pt, % how far the line-numbers are from the code
+numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+rulecolor=\color{black}, % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+showspaces=false, % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+showstringspaces=false, % underline spaces within strings only
+showtabs=false, % show tabs within strings adding particular underscores
+stepnumber=1, % the step between two line-numbers. If it's 1, each line will be numbered
+stringstyle=\color{mymauve}, % string literal style
+tabsize=2, % sets default tabsize to 2 spaces
+title=\lstname % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+%END of listing package%
+
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+%define Javascript language
+\lstdefinelanguage{JavaScript}{
+keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+keywordstyle=\color{blue}\bfseries,
+ndkeywords={class, export, boolean, throw, implements, import, this},
+ndkeywordstyle=\color{darkgray}\bfseries,
+identifierstyle=\color{black},
+sensitive=false,
+comment=[l]{//},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{purple}\ttfamily,
+stringstyle=\color{red}\ttfamily,
+morestring=[b]',
+morestring=[b]"
+}
+
+\lstset{
+language=JavaScript,
+extendedchars=true,
+basicstyle=\footnotesize\ttfamily,
+showstringspaces=false,
+showspaces=false,
+numbers=left,
+numberstyle=\footnotesize,
+numbersep=9pt,
+tabsize=2,
+breaklines=true,
+showtabs=false,
+captionpos=b
+}
+
+\graphicspath{ {./images/} }
+
+\title{\textbf{SD Communicator} \\ POLITECHNIKA POZNAŃSKA}
+\author{Sebastian Siejek, Dawid Smalc}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents{}
+
+\section{Wstęp}
+Naszym celem jest rozszerzenie komunikatora tekstowego stworzonego na potrzeby projektu dla dr. Tomasza Bilskiego. Rozbudowa aplikacji realizowana jest w ramach projektu z przedmiotu Telefonia IP prowadzonego przez mgr. inż. Michała Apolinarskiego. Rozszerzenie polega na dodaniu użytkownikom komunikacji głosowej oraz video.
+
+\section{Charakterystyka ogólna}
+Głównym zadaniem systemu ma być realizacja komunikacji między osobami identyfikującymi się nadanym pseudonimem. W systemie dostępne będą pokoje publiczne. Każdy z użytkowników systemu może stworzyć swój pokój do rozmowy lub dołączyć do istniejącego pokoju w celu wymiany wiadomości. Grupą docelową systemu jest młodzież. Interfejs jest w języku angielskim. System może działać w sieci WAN.
+
+\section{Architektura systemu}
+System jest podzielony na dwie usługi klienta oraz serwer. Obie z nich są napisane w TypeScript(JavaScript) i działają w środowisku node.js. Serwer jest stworzony w frameworku nest.js, a część kliencka w React.js. Proces wymiany wiadomości realizowany jest dzięki protokołowi Web Socket. Połącznie głosowe oraz video jest realizowane dzięki technologii WebRTC.
+
+\section{Wymagania}
+\subsection{Wymagania funkcjonalne}
+System ma za zadanie anonimowo łączyć ze sobą ludzi mających chęć porozmawiania. System zapewnia wysyłanie i odbieranie wiadomości oraz komunikacje z wykorzystaniem mikrofonu i kamerki internetowej przez użytkowników systemu bez zakładania konta. Każdy użytkownik może stworzyć pokój publiczny. Dla każdego utworzonego pokoju jest generowany link, który można przesłać dowolnej osobie. Użytkownicy systemu zachowują anonimowość, nie podając swoich danych osobowych.
+
+\begin{itemize}
+  \item Wysyłanie wiadomości tekstowych dla każdegu użytkownika w pokoju.
+  \item Możliwość komunikacji głosowej.
+  \item Możliwość komunikacji z użyciem kamerki.
+  \item Możliwość wygenerowania identyfikatora pokoju lub utworzenie dowolnego.
+  \item Konieczność dodania nazwy użytkownika.
+  \item Możliwość dołącznie do pokoju.
+  \item Możliwość opuszczenia pokoju.
+  \item Możliwość włączenia / wyłączenia mikrofonu.
+  \item Możliwość włączenia / wyłączenia kamerki.
+  \item Twórca pokoju może zaakceptować lub odrzucić połączenie.
+  \item Po dołączeniu lub odłączeniu osoby z pokoju zostanie wyświetlany komunikat w widoku pokoju. Jeśli okno przeglądarki jest zamknięte, ale użytkownik wyraził zgodę na powiadomienia push to powiadomienie będzie systemowe.
+  \item Po dołączeniu do pokoju do adresu strony zostanie dodany identyfikator pokoju.
+\end{itemize}
+
+\subsection{Wymagania niefunkcjonalne}
+ Aplikacja kliencka uruchamiana jest w przeglądarce internetowej. Przeglądarka musi wspierać JavaScript, WebSocket oraz WebRTC. Wiadomości oraz rejestracja głosu nie jest przechowywana na serwerze. Aplikacja będzie reponsywna dostosowywując interfejs do szerokość ekranu użytkownika. Zapewnia szyfrowane połączenie HTTPS.
+
+\section{Narzędzia, środowisko, biblioteki, kodeki}
+\subsection{Narzędzia}
+
+\subsubsection{Github}
+Zdalne repozytorium do łączenia zmian oraz rozwiązywania konfliktów w kodzie.
+
+\subsubsection{Visal Studio Code}
+Edytor(IDE) do pisania kodu.
+
+\subsubsection{Notion}
+Do zarządzania zadaniami i pisania notatek.
+
+\subsection{Środowisko}
+Projekt jest zrealizowany w środowisku Node.js. W skład aplikacji wchodzi część serwerowa oraz kliencka. Kod jest rozdzielony na dwa repozytoria. Serwer jest stworzony przy pomocy frameworka Nest.js, natomiast część kliencka z wykorzystaniem React.js. Komunikacja między klientem a serwerem jest realizowana z wykorzystaniem technologii WebSocket. Do komunikacji w czasie korzystamy z wbudowanego w przeglądarki internetowe stanrdu WebRTC. Aplikacja działa w chmurze na platformie \href{https://dashboard.heroku.com/apps}{Heroku}.
+
+\subsection{Biblioteki}
+
+\subsubsection{Socket.IO}
+Do obsługi protokołu websocket na serwerze oraz po stronie klienta.
+
+\subsubsection{simple-peer}
+Do ustanowienia komunikacji P2P między węzłami w czasie rzeczywistym.
+
+\subsubsection{redux}
+Do zarządzania stanem aplikacji i przekazywania danych między komponentami.
+
+\subsubsection{nanoid}
+Do generowania unikalnego identyfikatora pokoju.
+
+\subsection{Kodeki}
+Technologia WebRTC wspiera kodeki VP8 oraz AVC / H.264.
+
+\section{Opis najważniejszych protokołów}
+
+\subsection{WebSocket}
+Zapewnia dwukierunkowy kanał komunikacyjny za pośrednictwem jednego gniazda TCP. Stosowania do komunikacji klienta z serwerem. Umożliwia transmisje danych w czasie rzeczywistym.
+
+\subsubsection{Nagłówek}
+
+Odpowiedź
+\begin{itemize}
+  \item Connection - Określa sposób połączenia
+  \item Sec-WebSocket-Accept - Zaszyfrowana wiadomość podczas uzgadniania połączenia klienta z serwerem
+  \item Sec-WebSocket-Extensions- określa rozszerzenia protokołu
+  \item Upgrade - Określa zaktualizowanie protokołu np. z HTTP do WebSocket
+\end{itemize}
+
+Żądanie
+\begin{itemize}
+  \item Connection - Określa sposób połączenia
+  \item Sec-WebSocket-Extension - Określa rozszerzania protokołu WebSocket
+  \item Sec-WebSocket-Key - Dostarcza informacje serwerowi, że klient jest uprawniony do żądania uaktualnienia do WebSocket
+  \item Sec-WebSocket-Version - Określa wersję protokołu WebSocket
+  \item Upgrade - Określa zaktualizowanie protokołu np. z HTTP do WebSocket
+\end{itemize}
+
+\subsection{HTTP}
+(ang. \emph{Hypertext Transfer Protocol}) - Jest protokołem przesyłania dokumentów hipertekstowych. Okręśla formę żądania klienta oraz formę odpowiedzi serwera. Jest bezstanowy co oznacza, że każde zapytanie może być interpretowanie niezależnie od pozostałych.
+
+\section{Diagramy UML}
+
+\subsection{Diagram przypadków użycia}
+
+\subsection{Room}
+\includegraphics{useCaseDiagrams/room.png}
+
+\subsection{Messages}
+\includegraphics{useCaseDiagrams/messages.png}
+
+\subsection{Media}
+\includegraphics{useCaseDiagrams/media.png}
+
+\subsection{Diagram przebiegów}
+\subsubsection{Komunikacja}
+\includegraphics{sequenceDiagram.png}
+
+\subsubsection{Diagram stanów}
+\includegraphics{stateDiagram.png}
+
+\subsection{Diagram stanów}
+
+\subsection{Diagram klas}
+\includegraphics{classDiagram.png}
+
+\section{Projekt interfejsu graficznego}
+
+\subsubsection{Odbiorca wiadomości}
+\includegraphics{ui/chatReceiver.png}
+
+\subsubsection{Nadawca wiadomości}
+\includegraphics{ui/chatSender.png}
+
+\subsubsection{Formularz dołączanie do pokoju}
+\includegraphics{ui/joinToRoom.png}
+
+\subsubsection{Kontrola mikrofonu i dźwięku}
+\includegraphics{ui/mediaControl.png}
+
+\subsubsection{Powiadomienia systemowe}
+\includegraphics{ui/notifications.png}
+
+\subsubsection{Kontrola pokoju}
+\includegraphics{ui/roomControl.png}
+
+\subsubsection{Video}
+\includegraphics{ui/video.png}
+
+\section{Najważniejsze metody i fragmenty kodu aplikacji}
+
+\subsection{Metoda nasłuchująca i przesyłająca wiadomości}
+\begin{lstlisting}[language=JavaScript]
+  @SubscribeMessage('msgToServer')
+  handleMessage(
+    client: Socket,
+    message: { body: string; nickname: string; senderId: string }
+  ): WsResponse<unknown> {
+    const { roomId } = client.handshake.query as { roomId: string }
+
+    this.wss.in(roomId).emit('msgToClient', message)
+
+    return { event: 'msgToServer', data: message }
+  }
+\end{lstlisting}
+
+\subsection{Udostępnianie mikrofonu i kamerki}
+\begin{lstlisting}[language=JavaScript]
+  useEffect(() => {
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: true,
+        video: {
+          width: { ideal: 4096 },
+          height: { ideal: 2160 }
+        }
+      })
+      .then((stream) => {
+        if (videoRef.current) {
+          setStream(stream)
+
+          videoRef.current.srcObject = stream
+
+          videoRef.current.onloadedmetadata = function () {
+            const { current } = videoRef
+            if (current) {
+              current.play()
+
+              if (!isPlay)
+                stream.getVideoTracks().forEach((video) => video.stop())
+
+              if (isMuted) current.muted = true
+              if (!isMuted) current.muted = false
+            }
+          }
+        }
+      })
+      .catch((error) => {
+        console.warn(error)
+        toast.error(error)
+      })
+  }, [isPlay, isMuted])
+\end{lstlisting}
+
+\subsection{Metoda wysyłki wiadomości na serwer}
+\begin{lstlisting}[language=JavaScript]
+  const sendMessage = (message: string) => {
+    socketRef.current.emit('msgToServer', {
+      body: message,
+      nickname: nickname,
+      senderId: socketRef.current.id
+    })
+  }
+\end{lstlisting}
+
+\subsection{Przesłanie połączenia p2p}
+\begin{lstlisting}[language=JavaScript]
+  const call = (signalData: SimplePeer.SignalData) => {
+    socketRef.current.emit('call', {
+      signalData,
+      nickname: nickname,
+      senderId: socketRef.current.id
+    })
+  }
+\end{lstlisting}
+
+\section{Literatura}
+
+\url{https://www.wikibooks.org}\\
+\url{https://developer.mozilla.org/pl/docs/WebSockets}\\
+\url{https://www.w3.org/TR/websockets/}\\
+\url{https://tools.ietf.org/html/rfc6455}\\
+\url{https://caniuse.com/websockets}\\
+\url{https://sekurak.pl/bezpieczenstwo-protokolu-websocket-w-praktyce/}\\
+\url{https://christian-schneider.net/CrossSiteWebSocketHijacking.html}\\
+\url{https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API}\\
+\url{https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia}\\
+\url{https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Protocols#turn}\\
+\url{https://pl.wikipedia.org/wiki/Hypertext_Transfer_Protocol}
+
+\end{document}
