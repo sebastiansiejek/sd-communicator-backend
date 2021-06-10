@@ -84,6 +84,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const { roomId } = client.handshake.query as { roomId: string }
     const { nickname } = message
 
+    client.join(roomId)
+
     this.wss.in(roomId).emit('joinToRoom', {
       message: `${nickname} joined to room`
     })
