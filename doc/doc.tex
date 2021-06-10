@@ -9,6 +9,7 @@
 \usepackage{graphicx}
 \usepackage{listings} %code highlighter
 \usepackage{color} %use color
+\usepackage{ragged2e}
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
@@ -84,6 +85,7 @@ captionpos=b
 \date{\today}
 
 \begin{document}
+\justify
 
 \maketitle
 
@@ -221,21 +223,6 @@ Odpowiedź
 
 \section{Najważniejsze metody i fragmenty kodu aplikacji}
 
-\subsection{Metoda nasłuchująca i przesyłająca wiadomości}
-\begin{lstlisting}[language=JavaScript]
-  @SubscribeMessage('msgToServer')
-  handleMessage(
-    client: Socket,
-    message: { body: string; nickname: string; senderId: string }
-  ): WsResponse<unknown> {
-    const { roomId } = client.handshake.query as { roomId: string }
-
-    this.wss.in(roomId).emit('msgToClient', message)
-
-    return { event: 'msgToServer', data: message }
-  }
-\end{lstlisting}
-
 \subsection{Udostępnianie mikrofonu i kamerki}
 \begin{lstlisting}[language=JavaScript]
   useEffect(() => {
@@ -274,22 +261,98 @@ Odpowiedź
   }, [isPlay, isMuted])
 \end{lstlisting}
 
-\subsection{Metoda wysyłki wiadomości na serwer}
+\subsection{Przesłanie połączenia p2p}
 \begin{lstlisting}[language=JavaScript]
-  const sendMessage = (message: string) => {
-    socketRef.current.emit('msgToServer', {
-      body: message,
+  const call = (signalData: SimplePeer.SignalData) => {
+    socketRef.current.emit('call', {
+      signalData,
       nickname: nickname,
       senderId: socketRef.current.id
     })
   }
 \end{lstlisting}
 
-\subsection{Przesłanie połączenia p2p}
+\subsection{Nasłuchiwanie dołączenia do video}
 \begin{lstlisting}[language=JavaScript]
-  const call = (signalData: SimplePeer.SignalData) => {
-    socketRef.current.emit('call', {
-      signalData,
+  @SubscribeMessage('JOIN_TO_VIDEO')
+  jointToVideo(client: Socket, payload): void {
+    const { users, socketToRoom } = this
+    const { roomId } = payload
+
+    if (users[roomId]) {
+      users[roomId].push(client.id)
+    } else {
+      users[roomId] = [client.id]
+    }
+
+    this.logger.log(`JOIN_TO_VIDEO: ${JSON.stringify(payload)}`)
+
+    socketToRoom[client.id] = roomId
+
+    const usersInThisRoom = users[roomId].filter((id) => id !== client.id)
+
+    client.emit('ALL_USERS', usersInThisRoom)
+
+    this.logger.log(`ALL_USERS: ${JSON.stringify(usersInThisRoom)}`)
+  }
+\end{lstlisting}
+
+\subsection{Nasłuchiwanie wysyłki sygnału peer}
+\begin{lstlisting}[language=JavaScript]
+  @SubscribeMessage('SENDING_SIGNAL')
+  sendingSignal(
+    socket: Socket,
+    payload: {
+      userToSignal: SimplePeer.SignalData
+      signal: SimplePeer.SignalData
+      callerId: string
+    }
+  ) {
+    this.logger.log(`msgToClient: ${JSON.stringify(payload)}`)
+
+    socket.to(payload.userToSignal).emit('USER_JOINED', {
+      signal: payload.signal,
+      callerId: payload.callerId
+    })
+  }
+\end{lstlisting}
+
+\subsection{Nasłuchiwanie odebrania sygnału peer}
+\begin{lstlisting}[language=JavaScript]
+  @SubscribeMessage('RETURNING_SIGNAL')
+  returningSignal(
+    socket: Socket,
+    payload: { callerId: string; signal: string }
+  ) {
+    this.logger.log(`RETURNING_SIGNAL: ${JSON.stringify(payload)}`)
+
+    socket.to(payload.callerId).emit('RECEIVING_RETURNED_SIGNAL', {
+      signal: payload.signal,
+      id: socket.id
+    })
+  }
+\end{lstlisting}
+
+\subsection{Metoda nasłuchująca i przesyłająca wiadomości}
+\begin{lstlisting}[language=JavaScript]
+  @SubscribeMessage('msgToServer')
+  handleMessage(
+    client: Socket,
+    message: { body: string; nickname: string; senderId: string }
+  ): WsResponse<unknown> {
+    const { roomId } = client.handshake.query as { roomId: string }
+
+    this.wss.in(roomId).emit('msgToClient', message)
+
+    return { event: 'msgToServer', data: message }
+  }
+\end{lstlisting}
+
+\subsection{Metoda wysyłki wiadomości na serwer}
+\begin{lstlisting}[language=JavaScript]
+  const sendMessage = (message: string) => {
+    socketRef.current.emit('msgToServer', {
+      body: message,
       nickname: nickname,
       senderId: socketRef.current.id
     })
