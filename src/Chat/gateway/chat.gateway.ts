@@ -4,8 +4,7 @@ import {
   OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer,
-  WsResponse
+  WebSocketServer
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
 import SimplePeer from 'simple-peer'
@@ -47,6 +46,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     this.wss.in(roomId).emit('msgToClient', message)
 
+    this.logger.log(`msgToClient: ${JSON.stringify(message)}`)
+
     return { event: 'msgToServer', data: message }
   }
 
@@ -59,6 +60,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       callerId: string
     }
   ) {
+    this.logger.log(`msgToClient: ${JSON.stringify(payload)}`)
+
     socket.to(payload.userToSignal).emit('USER_JOINED', {
       signal: payload.signal,
       callerId: payload.callerId
@@ -70,6 +73,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     socket: Socket,
     payload: { callerId: string; signal: string }
   ) {
+    this.logger.log(`RETURNING_SIGNAL: ${JSON.stringify(payload)}`)
+
     socket.to(payload.callerId).emit('RECEIVING_RETURNED_SIGNAL', {
       signal: payload.signal,
       id: socket.id
@@ -85,6 +90,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const { nickname } = message
 
     client.join(roomId)
+
+    this.logger.log(`joinToRoom: ${JSON.stringify(message)}`)
 
     this.wss.in(roomId).emit('joinToRoom', {
       message: `${nickname} joined to room`
@@ -102,11 +109,15 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       users[roomId] = [client.id]
     }
 
+    this.logger.log(`JOIN_TO_VIDEO: ${JSON.stringify(payload)}`)
+
     socketToRoom[client.id] = roomId
 
     const usersInThisRoom = users[roomId].filter((id) => id !== client.id)
 
     client.emit('ALL_USERS', usersInThisRoom)
+
+    this.logger.log(`ALL_USERS: ${JSON.stringify(usersInThisRoom)}`)
   }
 
   @SubscribeMessage('leaveRoom')
@@ -122,5 +133,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.wss.in(roomId).emit('leaveRoom', {
       message: `${nickname} leaved room`
     })
+
+    this.logger.log(`leaveRoom: ${JSON.stringify(message)}`)
   }
 }
