@@ -29,7 +29,8 @@
     "@types/socket.io": "^2.1.11",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "simple-peer": "^9.11.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
