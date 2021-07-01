@@ -1,5 +1,5 @@
 # sd-communicator
-Chat
+Text and voice/video chat
 
 ## Getting started
 * Set WEBSOCKET_CLIENT_ORIGIN variable in .env
