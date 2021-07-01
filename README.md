@@ -1,5 +1,11 @@
 # sd-communicator
-Text and voice/video chat
+
+## Description
+
+Text and voice/video chat.
+
+Project for the Poznań University of Technology.
+
 
 ## Getting started
 * Set WEBSOCKET_CLIENT_ORIGIN variable in .env
